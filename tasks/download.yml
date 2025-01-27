@@ -26,7 +26,7 @@
 
     - name: get checksum for {{ system_architecture }} architecture
       set_fact:
-        __java_checksum: "{{ __java_checksums | java_checksum('linux', system_architecture) }}"
+        __java_checksum: "sha256:{{ __java_checksums | java_checksum('linux', system_architecture) }}"
   delegate_to: localhost
 
 - name: detect the downloaded archive
@@ -51,7 +51,7 @@
         # timeout: 320
         url_username: "{{ java_download.username | default(omit) }}"
         url_password: "{{ java_download.password | default(omit) }}"
-        checksum: "sha256:{{ __java_checksum }}"
+        checksum: "{{ __java_checksum | default(omit) }}"
       no_log: "{{ not lookup('env', 'ANSIBLE_DEBUG') | bool }}"
       register: _download_archive
       until: _download_archive is succeeded

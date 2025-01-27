@@ -1,6 +1,9 @@
 ---
 
-- block:
+- name: clean up
+  when:
+    - java_automatic_cleanup
+  block:
     - name: remove remote temp directory
       file:
         path: "{{ java_cache_directory }}"
@@ -13,7 +16,5 @@
         path: "{{ java_local_tmp_directory }}"
         state: absent
         mode: 0750
-  when:
-    - java_automatic_cleanup
 
 ...

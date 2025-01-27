@@ -38,5 +38,7 @@
 
 - name: run cleanup
   include_tasks: cleanup.yml
+  when:
+    - java_automatic_cleanup
 
 ...
